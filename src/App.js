@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'react-loader-spinner';
 
-import { getAllPosts } from './store/actions';
+import { getAllPosts, deletePost } from './store/actions';
+import PostItem from './components/PostItem';
 
 function App(props) {
   const dispatch = useDispatch();
@@ -13,6 +14,17 @@ function App(props) {
   useEffect(() => {
     dispatch(getAllPosts())
   }, [dispatch]);
+
+  const onDeletePost = (post) => {
+    const isUserConfirmed = window.confirm('Are you sure you want to delete the post?');
+
+    if (!isUserConfirmed) {
+      return;
+    }
+
+    dispatch(deletePost({post}))
+    return;
+  };
 
   const renderContent = () => {
     if (gettingPosts) {
@@ -37,36 +49,7 @@ function App(props) {
     }
 
     return posts.map((post) => (
-      <div
-        style={{
-          marginTop: 10,
-          background: '#0A79DF',
-          padding: 15,
-          borderRadius: 10,
-        }}
-      >
-        <p
-          style={{
-            marginTop: 0,
-            marginBottom: 0,
-            color: 'white',
-            fontSize: 16,
-            fontWeight: 'bold'
-          }}
-        >
-          {post.title}
-        </p>
-        <p
-          style={{
-            marginTop: 0,
-            marginBottom: 0,
-            color: 'white',
-            fontSize: 14
-          }}
-        >
-          {post.body}
-        </p>
-      </div>
+      <PostItem key={post.id} post={post} deletePost={onDeletePost} />
     ));
   };
 
@@ -74,7 +57,7 @@ function App(props) {
     <div className="App">
       <header className="App-header">
         <p>
-          Posts
+          Posts Management System
         </p>
       </header>
 

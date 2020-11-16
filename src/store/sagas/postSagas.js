@@ -3,6 +3,8 @@ import { call, put } from 'redux-saga/effects';
 import { urls, requestMethods, actionTypes } from '../../utilities/constants';
 import { request } from '../../utilities/request';
 import logger from '../../utilities/logger';
+import cloneDeep from 'clone-deep';
+import store from '..';
 
 function* getAllPostsSaga() {
   try {
@@ -26,11 +28,30 @@ function* getAllPostsSaga() {
 
     yield put({ type: actionTypes.GET_POSTS_SUCCEEDED, payload });
   } catch (error) {
-    logger.error('getPosts error: ', error);
+    logger.apiError('getPosts error: ', error);
     yield put({ type: actionTypes.GET_POSTS_FAILED, });
   }
 }
 
+function* deletePostSaga({params}) {
+  try {
+    const {post} = params;
+
+    const allPosts = cloneDeep(store.getState().post.posts);
+
+    const allPostsAfterDeletingPost = allPosts.filter((postData) => postData.id !== post.id);
+
+    const payload = {
+      posts: allPostsAfterDeletingPost
+    };
+
+    yield put({ type: actionTypes.GET_POSTS_SUCCEEDED, payload });
+  } catch (error) {
+    logger.error('deletePost error: ', error);
+  }
+}
+
 export {
-  getAllPostsSaga
+  getAllPostsSaga,
+  deletePostSaga
 };
