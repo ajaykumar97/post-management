@@ -1,7 +1,7 @@
 export const actionTypes = {
-  GET_USER_REQUESTED: 'GET_USER_REQUESTED',
-  GET_USERS_SUCCEEDED: 'GET_USERS_SUCCEEDED',
-  GET_USERS_FAILED: 'GET_USERS_FAILED',
+  GET_POSTS_REQUESTED: 'GET_POSTS_REQUESTED',
+  GET_POSTS_SUCCEEDED: 'GET_POSTS_SUCCEEDED',
+  GET_POSTS_FAILED: 'GET_POSTS_FAILED',
 };
 
 export const requestMethods = {
@@ -12,5 +12,5 @@ export const requestMethods = {
 
 export const urls = {
   baseUrl: 'https://jsonplaceholder.typicode.com',
-  getUsers: 'users',
+  getPosts: 'posts',
 };

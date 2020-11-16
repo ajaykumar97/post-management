@@ -4,34 +4,33 @@ import { urls, requestMethods, actionTypes } from '../../utilities/constants';
 import { request } from '../../utilities/request';
 import logger from '../../utilities/logger';
 
-function* getAllUsersSaga() {
+function* getAllPostsSaga() {
   try {
     const config = {
-      url: urls.getUsers,
+      url: urls.getPosts,
       method: requestMethods.GET,
     };
 
     let { data } = yield call(request, config);
 
-    logger.data('getUsers response is: ', data, true);
+    logger.data('getPosts response is: ', data, true);
 
-    data = data.map((user) => {
-      user.key = String(user.id);
-      return user;
+    data = data.map((post) => {
+      post.key = String(post.id);
+      return post;
     });
 
     const payload = {
-      users: data,
+      posts: data.splice(0, 50),
     };
 
-
-    yield put({ type: actionTypes.GET_USERS_SUCCEEDED, payload });
+    yield put({ type: actionTypes.GET_POSTS_SUCCEEDED, payload });
   } catch (error) {
-    logger.error('Logout user error: ', error);
-    yield put({ type: actionTypes.GET_USERS_FAILED, });
+    logger.error('getPosts error: ', error);
+    yield put({ type: actionTypes.GET_POSTS_FAILED, });
   }
 }
 
 export {
-  getAllUsersSaga
+  getAllPostsSaga
 };
