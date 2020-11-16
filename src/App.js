@@ -14,8 +14,6 @@ function App(props) {
     dispatch(getAllPosts())
   }, [dispatch]);
 
-  console.log('posts: ', posts)
-
   const renderContent = () => {
     if (gettingPosts) {
       return (
