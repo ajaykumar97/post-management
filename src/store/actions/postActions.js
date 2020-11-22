@@ -9,7 +9,13 @@ const deletePost = (params) => ({
   params
 });
 
+const addNewPost = (params) => ({
+  type: actionTypes.ADD_NEW_POST_REQUESTED,
+  params
+});
+
 export {
   getAllPosts,
-  deletePost
+  deletePost,
+  addNewPost
 };

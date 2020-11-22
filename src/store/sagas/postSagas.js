@@ -1,4 +1,5 @@
 import { call, put } from 'redux-saga/effects';
+import {v4 as uuidv4} from 'uuid';
 
 import { urls, requestMethods, actionTypes } from '../../utilities/constants';
 import { request } from '../../utilities/request';
@@ -51,7 +52,34 @@ function* deletePostSaga({params}) {
   }
 }
 
+function* addNewPostSaga({params}) {
+  try {
+    const {data: {postTitle, postDescription}} = params;
+
+    console.log('data: ', params)
+    const id = uuidv4();
+    const post = {
+      id,
+      key: id,
+      userId: 1,
+      title: postTitle,
+      body: postDescription,
+    };
+
+    const allPosts = cloneDeep(store.getState().post.posts);
+
+    allPosts.unshift(post);
+
+    const payload = {posts: allPosts};
+
+    yield put({ type: actionTypes.GET_POSTS_SUCCEEDED, payload });
+  } catch (error) {
+    logger.error('addNewPost error: ', error);
+  }
+}
+
 export {
   getAllPostsSaga,
-  deletePostSaga
+  deletePostSaga,
+  addNewPostSaga
 };
