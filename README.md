@@ -41,4 +41,4 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ### `yarn deploy`
 
-It build the application and deploys it to the GitHub Pages website.
+It builds the application and deploys it to the GitHub Pages website.
